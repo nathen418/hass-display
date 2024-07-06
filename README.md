@@ -1,29 +1,44 @@
-[![Discord](https://discordapp.com/api/guilds/649703068799336454/widget.png)](https://discordapp.com/invite/KKYw763)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/nathen418/template-repo?style=social)
-![](https://img.shields.io/github/repo-size/nathen418/template-repo?color=Green&style=flat-square)
-![](https://img.shields.io/tokei/lines/github/nathen418/template-repo?style=flat-square)  
+# Home Assistant Touch Screen on Raspberry Pi 4B+
+- Below is a list of steps to install and configure a Home Assistant touchscreen display to run HASS in kiosk mode
 
-# Template Repo 
-- Description: This is a template repository for all new repos that I might create
+## Hardware
+- Raspberry Pi 4B+ 4Gb
+- Raspberry Pi Official 7" Display
+- KKSB Raspberry Pi 4B 7 Inch Touchscreen Case  
 
-## Rough outline:
-- Outline here
+## Installation Steps:
+- Install RaspianOS 64bit
 
-## How to run yourself:
-- Explain that here
+- Select System Options > Boot / Auto Login > Desktop Autologin: Desktop GUI, automatically logged in as 'pi' user.
+``` bash
+$ sudo apt install wtype
+$ sudo apt update && sudo apt upgrade
+$ sudo nano .config/wayfire.ini
+```
 
+- Paste in the following:  
+``` bash
+[autostart]
+panel = wfrespawn wf-panel-pi  
+background = wfrespawn pcmanfm --desktop --profile LXDE-pi  
+xdg-autostart = lxsession-xdg-autostart  
+chromium = chromium-browser [https://raspberrypi.com https://time.is/London](https://hass.srv.playantares.com/dashboard-lights/0?kiosk=true) --kiosk --noerrdialogs --disable-infobars --no-first-run --ozone-platform=wayland --enable-features=OverlayScrollbar --start-maximized  
+screensaver = false  
+dpms = false
+```
+- Continue with the following steps
+``` bash
+$ cd /usr/share/plymouth/themes/pix  
+$ sudo wget https://antaresnetwork.com/resources/icon.png  
+$ sudo rm splash.png  
+$ sudo cp icon.png splash.png  
+$  sudo plymouth-set-default-theme --rebuild-initrd pix  
+$ sudo reboot
+```
+- Sign in to home assistant
+``` bash
+  $ sudo reboot
+```
 
-## End goal of the project:
-- Describe what the goal of the project is
-
-
-## Credits:
-- Person A
-- Person B
-
-## Join my discord server:
-https://dsc.gg/antaresnetwork
-
-## License
-- Default license is shown below. Other licenses may be chosen by me. Our default license will allow you to distribute our code without restriction as long as nothing is changed, and the terms of the Creative Commons License by--nc-nd are followed. However one must only contact me through my business email to request an exemption. If you wish to do anything that the cc by-nc-nd license does not allow, just ask about it and I will probably say go ahead.  
-<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
+### My Website
+https://nathen418.com
